@@ -11,7 +11,6 @@ servers.
 
 :since: 0.1.0
 """
-from django import VERSION as django_version
 django = __import__('django.http')
 http = django.http
 conf = __import__('django.conf')
@@ -101,9 +100,9 @@ class DjangoGateway(gateway.BaseGateway):
 
         # Decode the request
         try:
-            if django_version < (1, 4):
+            try:
                 raw_data = http_request.raw_post_data
-            else:
+            except:
                 raw_data = http_request.body
             request = remoting.decode(raw_data,
                 strict=self.strict, logger=self.logger,
